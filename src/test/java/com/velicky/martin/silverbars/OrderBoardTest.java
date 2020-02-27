@@ -95,6 +95,26 @@ class OrderBoardTest {
     }
 
     @Test
+    void getOrdersRespectsOrderType() {
+
+        // given
+        final List<Order> toSell = new LinkedList<>();
+        toSell.add(new Order("Jon", OrderType.SELL, 3500, 306));
+        final List<Order> toBuy = new LinkedList<>();
+        toBuy.add(new Order("Chris", OrderType.BUY, 3500, 306));
+
+        // when
+        final SortedMap<Integer, Integer> buyOrders = new OrderBoard(toSell).getOrders(OrderType.BUY);
+        final SortedMap<Integer, Integer> sellOrders = new OrderBoard(toBuy).getOrders(OrderType.SELL);
+
+        // then
+        Assertions.assertNotNull(buyOrders);
+        Assertions.assertTrue(buyOrders.isEmpty());
+        Assertions.assertNotNull(sellOrders);
+        Assertions.assertTrue(sellOrders.isEmpty());
+    }
+
+    @Test
     void getsSellOrdersInAscendingOrder() {
 
         // given
@@ -120,7 +140,7 @@ class OrderBoardTest {
     }
 
     @Test
-    void getsBuyOrdersInAscendingOrder() {
+    void getsBuyOrdersInDescendingOrder() {
 
         // given
         final List<Order> list = new LinkedList<>();
